@@ -29,8 +29,6 @@ This script is used to augment image data created using LabelMe-MIT. It crops th
 
 <img align="left" width="200px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/raw/main/background_images/b1.jpg" />
 <img align="left" width="200px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/raw/main/background_images/b3.jpg" />
-<br />
-<br />
 <img align="left" width="200px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/raw/main/background_images/b4.jpg" />
 <img align="left" width="200px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/raw/main/background_images/b5.jpg" />
 
@@ -43,8 +41,6 @@ This script is used to augment image data created using LabelMe-MIT. It crops th
 
 <img align="left" width="200px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Images/Screenshot_1.png" />
 <img align="left" width="200px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Images/Screenshot_3.png" />
-<br />
-<br />
 <img align="left" width="200px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Images/Screenshot_4.png" />
 <img align="left" width="200px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Images/Screenshot_5.png" />
 
