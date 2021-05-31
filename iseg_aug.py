@@ -27,6 +27,13 @@ def iseg_aug(anno_img_path,anno_img_json,bg_img_folder_path,output_folder,ntimes
     coordinates = [i for i in data['shapes'][0]['points']]  
     f.close()
     
+    if data['shapes'][0]['shape_type']=="rectangle":
+        ymax = max(coordinates[0][0],coordinates[1][0])
+        ymin = min(coordinates[0][0],coordinates[1][0])
+        xmax = max(coordinates[0][1],coordinates[1][1])
+        xmin = min(coordinates[0][1],coordinates[1][1])
+        coordinates = [[ymin,xmin],[ymax,xmin],[ymax,xmax],[ymin,xmax]]
+        
     aug_path = output_folder + "\\" + anno_img_path.split('\\')[-1].split('.')[0] + "_aug" 
     
     anno_img = cv2.imread(anno_img_path)    
@@ -143,7 +150,9 @@ def iseg_aug(anno_img_path,anno_img_json,bg_img_folder_path,output_folder,ntimes
             cv2.imwrite(new_path, aug_img.astype(np.uint8))
 
             json_path = aug_path + n + ".json"
-
+            
+            if data['shapes'][0]['shape_type']=="rectangle":
+                new_coordinates1 = [new_coordinates1[0],new_coordinates1[2]]                
             data["shapes"][0]["points"] = new_coordinates1  
             data["imagePath"] = "..\\" + new_path.split('\\')[-1]
             data["imageData"] = str(base64.b64encode(open(new_path,'rb').read()))[2:-1]
