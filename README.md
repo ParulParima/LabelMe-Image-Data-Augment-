@@ -1,4 +1,4 @@
- # Image Aumentation
+ # Image Augmentation
  
 This script is used to augment image data created using LabelMe-MIT. It crops the annotated part from the reference image(input annotated image) and paste it randomly to any possible area of the provided background images. 
 
