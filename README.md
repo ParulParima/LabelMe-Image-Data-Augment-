@@ -13,7 +13,7 @@ This script is used to augment image data created using LabelMe-MIT. It crops th
     Newly augmented images and it's json
 
 - Constraints: 
-    1. Labelme should be used to create the annotated json.
+    1. LabelMe should be used to create the annotated json and thus images should be in .jpg format
     2. Annotation should be closed polygon               
         
 ## Demo
@@ -29,6 +29,8 @@ This script is used to augment image data created using LabelMe-MIT. It crops th
 <img align="left" width="180px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/raw/main/background_images/b3.jpg" />
 <img align="left" width="180px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/raw/main/background_images/b4.jpg" />
 <img align="left" width="180px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/raw/main/background_images/b5.jpg" />
+
+<br />
 
 ### Augmented Images
 
