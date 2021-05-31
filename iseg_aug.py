@@ -23,13 +23,11 @@ def iseg_aug(anno_img_path,anno_img_json,bg_img_folder_path,output_folder,ntimes
     
     # Access original coordinates
     f = open(anno_img_json,)
-    data = json.load(f)  
-    
-    coordinates = [] 
-    for i in data['shapes'][0]['points']:
-        coordinates.append(i) 
-        
+    data = json.load(f)      
+    coordinates = [i for i in data['shapes'][0]['points']]  
     f.close()
+    
+    aug_path = output_folder + "\\" + anno_img_path.split('\\')[-1].split('.')[0] + "_aug" 
     
     anno_img = cv2.imread(anno_img_path)    
     height, width = anno_img.shape[0],anno_img.shape[1]
@@ -98,10 +96,7 @@ def iseg_aug(anno_img_path,anno_img_json,bg_img_folder_path,output_folder,ntimes
         x_min = int(min([sublist[1] for sublist in coordinates]))
         y_min = int(min(([sublist[0] for sublist in coordinates])))
 
-        new_coordinates = []
-
-        for i in coordinates:
-            new_coordinates.append([i[0]-y_min, i[1]-x_min])
+        new_coordinates = [[i[0]-y_min,i[1]-x_min] for i in coordinates]
 
         x_max = int(max([sublist[1] for sublist in new_coordinates]))
         y_max = int(max(([sublist[0] for sublist in new_coordinates])))
@@ -118,7 +113,6 @@ def iseg_aug(anno_img_path,anno_img_json,bg_img_folder_path,output_folder,ntimes
         # Calculates the new random coordinates for the annotated object in the background image as well as saves the newly formed image and it's json
         for j in range(0,ntimes):
 
-            new_coordinates1 = []
 
             x_shift = np.random.randint(0,  height - x_max)
             y_shift = np.random.randint(0, width - y_max)
@@ -134,8 +128,7 @@ def iseg_aug(anno_img_path,anno_img_json,bg_img_folder_path,output_folder,ntimes
                     x_shift = np.random.randint(0,  height - x_max)
                     y_shift = np.random.randint(0, width - y_max)
 
-            for i in new_coordinates:
-                new_coordinates1.append([i[0]+y_shift, i[1]+x_shift])
+            new_coordinates1 = [[i[0]+y_shift,i[1]+x_shift] for i in new_coordinates]
 
             points2 = np.round(np.expand_dims(np.array(new_coordinates1),0)).astype('int32')   
             bg_img = dummy_bg.copy()
@@ -145,10 +138,11 @@ def iseg_aug(anno_img_path,anno_img_json,bg_img_folder_path,output_folder,ntimes
             res = np.roll(res, y_shift-y_min ,axis=1)
             aug_img = res + bg_img
 
-            new_path = output_folder + "\\" + anno_img_path.split('\\')[-1].split('.')[0] + "_aug" +str(counter) +"_" + str(j)+ "." + anno_img_path.split('.')[1]
+            n = str(counter) + "_" + str(j)
+            new_path = aug_path + n + ".jpg"
             cv2.imwrite(new_path, aug_img.astype(np.uint8))
 
-            json_path = new_path.split('.')[0] + ".json"
+            json_path = aug_path + n + ".json"
 
             data["shapes"][0]["points"] = new_coordinates1  
             data["imagePath"] = "..\\" + new_path.split('\\')[-1]
