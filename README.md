@@ -31,6 +31,8 @@ This script is used to augment image data created using LabelMe-MIT. It crops th
 <img align="left" width="180px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/raw/main/background_images/b5.jpg" />
 
 <br />
+<br />
+<br />
 
 ### Augmented Images
 
