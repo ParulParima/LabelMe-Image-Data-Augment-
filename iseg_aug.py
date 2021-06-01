@@ -43,6 +43,14 @@ def iseg_aug(aimg_folderpath, ajson_folderpath, bgimg_folderpath, output_folderp
         data = json.load(f)      
         coordinates = [i for i in data['shapes'][0]['points']]  
         f.close()
+        
+        # Condition specific for bounding box
+        if data['shapes'][0]['shape_type']=="rectangle":
+            ymax = max(coordinates[0][0],coordinates[1][0])
+            ymin = min(coordinates[0][0],coordinates[1][0])
+            xmax = max(coordinates[0][1],coordinates[1][1])
+            xmin = min(coordinates[0][1],coordinates[1][1])
+            coordinates = [[ymin,xmin],[ymax,xmin],[ymax,xmax],[ymin,xmax]]
 
         aug_path = os.path.join(output_folderpath,image_name + "_aug_")   
         
@@ -165,7 +173,11 @@ def iseg_aug(aimg_folderpath, ajson_folderpath, bgimg_folderpath, output_folderp
                 cv2.imwrite(new_path, aug_img.astype(np.uint8))
 
                 json_path = aug_path + str(counter) + ".json"
-
+                
+                # Condition specific for bounding box
+                if data['shapes'][0]['shape_type']=="rectangle":   
+                    new_coordinates1 = [new_coordinates1[0],new_coordinates1[2]] 
+                    
                 data["shapes"][0]["points"] = new_coordinates1  
                 data["imagePath"] = ".." + os.path.basename(new_path)
                 data["imageData"] = str(base64.b64encode(open(new_path,'rb').read()))[2:-1]
