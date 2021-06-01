@@ -16,15 +16,18 @@ This script is used to augment image data created using LabelMe-MIT. It crops th
 - Constraints: 
     1. LabelMe should be used to create the annotated json and thus images should be in .jpg format
     2. Annotation should be a closed polygon/bounding box  
-    3. One annotation per image                
+    3. There should be one annotation in an image                
         
 ## Demo
 
 
 ### Input Image
 
-<img align="left" width="500px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Images/1.png" />
-<img align="left" width="500px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Images/2.png" />
+<img align="left" width="250px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Images/1.png" />
+<img align="left" width="250px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Images/2.png" />
+
+<br />
+<br />
 
 ### Background Images
 
