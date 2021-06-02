@@ -46,12 +46,25 @@ This script is used to augment image data created using LabelMe-MIT. It crops th
 <br />
 <br />
 
-### Augmented Images
+### Augmented Images - 1
 
 <img align="left" width="180px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Images/O_1.png" />
 <img align="left" width="180px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Images/O_2.png" />
 <img align="left" width="180px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Images/O_3.png" />
 <img align="left" width="180px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Images/O_4.png" />
+
+<br />
+<br />
+<br />
+<br />
+<br />
+
+### Augmented Images - 2
+
+<img align="left" width="180px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/augment_files_2/demo1_aug_1.jpg" />
+<img align="left" width="180px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/augment_files_2/demo1_aug_3.jpg" />
+<img align="left" width="180px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/augment_files_2/demo2_aug_4.jpg" />
+<img align="left" width="180px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/augment_files_2/demo2_aug_1.jpg" />
 
 
 
