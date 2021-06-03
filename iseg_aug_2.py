@@ -135,10 +135,12 @@ def iseg_aug(aimg_folderpath, ajson_folderpath, bgimg_folderpath, output_folderp
                 res = np.dstack(tup=(rb, gb, bb))            
             
             random_moves = []
+            dummy_res = res.copy()
 
             # Calculates the new random coordinates for the annotated object in the background image as well as saves the newly formed image and it's json
             for j in range(0,ntimes_perbg):
 
+                res = dummy_res
                 x_shift = np.random.randint(0,  bg_img.shape[0] - x_max)
                 y_shift = np.random.randint(0, bg_img.shape[1] - y_max)
 
@@ -156,13 +158,16 @@ def iseg_aug(aimg_folderpath, ajson_folderpath, bgimg_folderpath, output_folderp
                 new_coordinates1 = [[i[0]+y_shift,i[1]+x_shift] for i in new_coordinates]
 
                 points2 = np.round(np.expand_dims(np.array(new_coordinates1),0)).astype('int32') 
-                
+                dummy_bg = bg_img.copy()
                 cv2.fillPoly(bg_img, points2,0)
-                               
+              
                 res = np.roll(res,x_shift,axis=0)
                 res = np.roll(res, y_shift,axis=1)
 
                 aug_img = res + bg_img
+                
+                bg_img = dummy_bg
+                
                 new_path = aug_path + str(counter) + ".jpg"
                 cv2.imwrite(new_path, aug_img.astype(np.uint8))
 
