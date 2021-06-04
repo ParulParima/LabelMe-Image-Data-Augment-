@@ -244,7 +244,7 @@ if  __name__ == '__main__':
     parser.add_argument('--ajson_folderpath', type=str, default='input_JSONS/', help='Annotated images\' jsons folder path')
     parser.add_argument('--bgimg_folderpath', type=str, default='background_images/',help='Background images folder path')
     parser.add_argument('--output_folderpath', type=str, default='augmented_files/',help='Output folder path')
-    parser.add_argument('--rotlimitangle', type=int, default=45,help='Maximum allowable rotation angle')    
+    parser.add_argument('--rotlimitangle', type=int, default=360,help='Maximum allowable rotation angle')    
     parser.add_argument('--bg_count', type=int, default=10, help='No. of random background images to be used from background image folder')
     parser.add_argument('--ntimes_perbg', type=int, default=1, help='No. of times you wish to augment using a single background image')    
     opt = parser.parse_args()
