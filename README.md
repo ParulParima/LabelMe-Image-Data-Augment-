@@ -60,7 +60,7 @@ This script is used to augment image data created using **LabelMe-MIT**. It copi
 <!-- Line 4: Output 2 -->
 <tr>
 <td><em>Output 2</em></td>
-<td><img align="left" width="250px" height="141px"src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Anno_Img_Lantern_33.gif?raw=true"/></td>
+<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Anno_Img_Lantern_33.gif?raw=true"/></td>
 <td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Anno_Img_Apple_33.gif?raw=true"/></td>
 <td><img align="left" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Anno_Img_Astronaut_33.gif?raw=true"/></td>
 </tr>
