@@ -1,70 +1,92 @@
- # Image Augmentation
+# LabelMe - Image Data Augmentation
+
+## Introduction
+
+This script is used to augment image data created using LabelMe-MIT. It copies the annotated part from the reference image(input annotated image) and paste it randomly to any possible area of the provided background images. 
+
+### Constraints 
+
+- LabelMe should be used to create the annotated json and thus images should be in .jpg format
+- Annotation should be a closed polygon/bounding box  
+- There should be one annotation in an image
+
+## Description
+
+1.Random Shift - It copies the annotated part from the reference image(input annotated image) and paste it randomly to any possible area of the provided background images. 
+
+- iseg_aug.py - The new image formed is of same shape as of input annotated image.  
+
+- iseg_aug_2.py - The new image formed is of same shape as of background image.
+  
+2.Rotation - It copies the annotated part from the reference image(input annotated image) and rotates it randomly.Then the copied part is pasted to any possible area of the provided background images.
+
+- iseg_aug_rotate.py - The rotation angle is fixed for a specific background but random shift happens in each image.
  
-This script is used to augment image data created using LabelMe-MIT. It crops the annotated part from the reference image(input annotated image) and paste it randomly to any possible area of the provided background images. 
-
-- Inputs: 
-    1. aimg_folderpath - path of annotated image folder
-    2. ajson_folderpath - path of annotated image's json folder 
-    3. bgimg_folderpath - path of folder containing background images
-    4. output_folderpath - path of folder where new augmented files are saved
-    5. bg_count - no. of random background images to be used from background image folder
-    6. ntimes_perbg - no. of times you wish to augment using a single background image
-
-- Output: 
-    Newly augmented images and it's json
-
-- Constraints: 
-    1. LabelMe should be used to create the annotated json and thus images should be in .jpg format
-    2. Annotation should be a closed polygon/bounding box  
-    3. There should be one annotation in an image                
-        
-## Demo
-
+- iseg_aug_random_rotate.py - The random rotation and random shift happens simultaneously in each and every background image.
 
 ### Input Image
 
-<img align="left" width="250px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Images/1.png" />
-<img align="left" width="250px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Images/2.png" />
+<br />
 
-<br />
-<br />
-<br />
-<br />
+<tr>
+<td><img width="250px"  height = "141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Images/1.png?raw=true" /><img width="250px" height = "141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Images/2.png?raw=true" /><img width="250px" height = "141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Images/3.png?raw=true"/></td>
+</tr>
+
 <br />
 <br />
 
 ### Background Images
 
-<img align="left" width="180px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/raw/main/background_images/b1.jpg" />
-<img align="left" width="180px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/raw/main/background_images/b3.jpg" />
-<img align="left" width="180px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/raw/main/background_images/b4.jpg" />
-<img align="left" width="180px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/raw/main/background_images/b5.jpg" />
+<br />
+
+<tr>
+<td><img width="200px" height="112px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/background_images/b1.jpg?raw=true" /><img width="200px" height="112px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/background_images/b2.jpg?raw=true" /><img width="200px" height="112px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/background_images/b3.jpg?raw=true" /><img width="200px" height="112px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/background_images/b4.jpg?raw=true" /></td>
+</tr>
 
 <br />
 <br />
-<br />
-<br />
-<br />
 
-### Augmented Images - 1
-
-<img align="left" width="180px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Images/O_1.png" />
-<img align="left" width="180px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Images/O_2.png" />
-<img align="left" width="180px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Images/O_3.png" />
-<img align="left" width="180px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Images/O_4.png" />
+### Augmented Images for iseg_aug.py
 
 <br />
-<br />
-<br />
+
+<tr>
+<td><img width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Bg_Img_Lantern_33.gif?raw=true"/><img width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Bg_Img_Apple_33.gif?raw=true"/><img width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Bg_Img_Astronaut_33.gif?raw=true"/>
+</td>
+</tr>
+
 <br />
 <br />
 
-### Augmented Images - 2
+### Augmented Images - iseg_aug_2.py
 
-<img align="left" width="180px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/augment_files_2/demo1_aug_1.jpg" />
-<img align="left" width="180px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/augment_files_2/demo1_aug_3.jpg" />
-<img align="left" width="180px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/augment_files_2/demo2_aug_4.jpg" />
-<img align="left" width="180px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/augment_files_2/demo2_aug_1.jpg" />
+<br />
 
+<tr>
+<td><img width="250px" height="141px"src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Anno_Img_Lantern_33.gif?raw=true"/><img width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Anno_Img_Apple_33.gif?raw=true"/><img src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Anno_Img_Astronaut_33.gif?raw=true"/>
+</td>
+</tr>
 
+<br />
+<br />
 
+### Augmented Images - iseg_aug_rotate.py
+
+<br />
+
+<tr>
+<td><img width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Rotation_Lantern_33.gif?raw=true"/><img width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Rotation_Apple_33.gif?raw=true"/><img width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Rotation_Astronaut_33.gif?raw=true"/>
+</td>
+</tr>
+
+<br />
+<br />
+
+### Augmented Images - iseg_aug_random_rotate.py
+
+<br />
+
+<tr>
+<td><img width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Random_Rotation_Lantern_33.gif?raw=true"/><img width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Random_Rotation_Apple_33.gif?raw=true"/><img width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Random_Rotation_Astronaut_33.gif?raw=true"/>
+</td>
+</tr>
