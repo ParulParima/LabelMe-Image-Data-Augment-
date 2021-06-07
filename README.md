@@ -94,6 +94,6 @@ This script is used to augment image data created using LabelMe-MIT. It copies t
 ### Augmented Images - iseg_aug_random_rotate.py
 
 <tr>
-<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Random_Rotation_Lantern_33.gif?raw=true"/><img width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Random_Rotation_Apple_33.gif?raw=true"/><img width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Random_Rotation_Astronaut_33.gif?raw=true"/>
+<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Random_Rotation_Lantern_33.gif?raw=true"/><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Random_Rotation_Apple_33.gif?raw=true"/><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Random_Rotation_Astronaut_33.gif?raw=true"/>
 </td>
 </tr>
