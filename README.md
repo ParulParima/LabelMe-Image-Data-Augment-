@@ -12,13 +12,13 @@ This script is used to augment image data created using LabelMe-MIT. It copies t
 
 ## Description
 
-1.Random Shift - It copies the annotated part from the reference image(input annotated image) and paste it randomly to any possible area of the provided background images. 
+1. Random Shift - It copies the annotated part from the reference image(input annotated image) and paste it randomly to any possible area of the provided background images. 
 
 - iseg_aug.py - The new image formed is of same shape as of input annotated image.  
 
 - iseg_aug_2.py - The new image formed is of same shape as of background image.
   
-2.Rotation - It copies the annotated part from the reference image(input annotated image) and rotates it randomly.Then the copied part is pasted to any possible area of the provided background images.
+2. Rotation - It copies the annotated part from the reference image(input annotated image) and rotates it randomly.Then the copied part is pasted to any possible area of the provided background images.
 
 - iseg_aug_rotate.py - The rotation angle is fixed for a specific background but random shift happens in each image.
  
