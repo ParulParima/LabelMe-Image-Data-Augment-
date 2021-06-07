@@ -34,6 +34,9 @@ This script is used to augment image data created using LabelMe-MIT. It copies t
 
 <br />
 <br />
+<br />
+<br />
+<br />
 
 ### Background Images
 
@@ -43,6 +46,8 @@ This script is used to augment image data created using LabelMe-MIT. It copies t
 <td><img align="left" width="200px" height="112px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/background_images/b1.jpg?raw=true" /><img align="left" width="200px" height="112px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/background_images/b2.jpg?raw=true" /><img align="left" width="200px" height="112px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/background_images/b3.jpg?raw=true" /><img align="left" width="200px" height="112px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/background_images/b4.jpg?raw=true" /></td>
 </tr>
 
+<br />
+<br />
 <br />
 <br />
 
@@ -57,6 +62,8 @@ This script is used to augment image data created using LabelMe-MIT. It copies t
 
 <br />
 <br />
+<br />
+<br />
 
 ### Augmented Images - iseg_aug_2.py
 
@@ -69,6 +76,8 @@ This script is used to augment image data created using LabelMe-MIT. It copies t
 
 <br />
 <br />
+<br />
+<br />
 
 ### Augmented Images - iseg_aug_rotate.py
 
@@ -79,6 +88,8 @@ This script is used to augment image data created using LabelMe-MIT. It copies t
 </td>
 </tr>
 
+<br />
+<br />
 <br />
 <br />
 
