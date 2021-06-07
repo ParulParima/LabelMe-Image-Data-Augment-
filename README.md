@@ -39,7 +39,7 @@ This script is used to augment image data created using LabelMe-MIT. It copies t
 ### Background Images
 
 <tr>
-<td><img align="left" width="199px" height="112px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/background_images/b1.jpg?raw=true" /><img align="left" width="199px" height="112px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/background_images/b2.jpg?raw=true" /><img align="left" width="199px" height="112px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/background_images/b3.jpg?raw=true" /><img align="left" width="199px" height="112px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/background_images/b4.jpg?raw=true" /></td>
+<td><img align="left" width="180px" height="101px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/background_images/b1.jpg?raw=true" /><img align="left" width="180px" height="101px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/background_images/b2.jpg?raw=true" /><img align="left" width="180px" height="101px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/background_images/b3.jpg?raw=true" /><img align="left" width="180px" height="101px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/background_images/b4.jpg?raw=true" /></td>
 </tr>
 
 <br />
