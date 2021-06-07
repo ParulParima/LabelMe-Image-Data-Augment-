@@ -26,8 +26,6 @@ This script is used to augment image data created using LabelMe-MIT. It copies t
 
 ### Input Image
 
-<br />
-
 <tr>
 <td><img align="left" width="250px"  height = "141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Images/1.png?raw=true" /><img align="left" width="250px" height = "141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Images/2.png?raw=true" /><img align="left" width="250px" height = "141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Images/3.png?raw=true"/></td>
 </tr>
@@ -39,8 +37,6 @@ This script is used to augment image data created using LabelMe-MIT. It copies t
 <br />
 
 ### Background Images
-
-<br />
 
 <tr>
 <td><img align="left" width="200px" height="112px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/background_images/b1.jpg?raw=true" /><img align="left" width="200px" height="112px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/background_images/b2.jpg?raw=true" /><img align="left" width="200px" height="112px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/background_images/b3.jpg?raw=true" /><img align="left" width="200px" height="112px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/background_images/b4.jpg?raw=true" /></td>
@@ -58,8 +54,6 @@ This script is used to augment image data created using LabelMe-MIT. It copies t
 
 ### Augmented Images for iseg_aug.py
 
-<br />
-
 <tr>
 <td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Bg_Img_Lantern_33.gif?raw=true"/><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Bg_Img_Apple_33.gif?raw=true"/><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Bg_Img_Astronaut_33.gif?raw=true"/>
 </td>
@@ -72,8 +66,6 @@ This script is used to augment image data created using LabelMe-MIT. It copies t
 <br />
 
 ### Augmented Images - iseg_aug_2.py
-
-<br />
 
 <tr>
 <td><img align="left" width="250px" height="141px"src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Anno_Img_Lantern_33.gif?raw=true"/><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Anno_Img_Apple_33.gif?raw=true"/><img align="left" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Anno_Img_Astronaut_33.gif?raw=true"/>
@@ -88,8 +80,6 @@ This script is used to augment image data created using LabelMe-MIT. It copies t
 
 ### Augmented Images - iseg_aug_rotate.py
 
-<br />
-
 <tr>
 <td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Rotation_Lantern_33.gif?raw=true"/><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Rotation_Apple_33.gif?raw=true"/><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Rotation_Astronaut_33.gif?raw=true"/>
 </td>
@@ -102,8 +92,6 @@ This script is used to augment image data created using LabelMe-MIT. It copies t
 <br />
 
 ### Augmented Images - iseg_aug_random_rotate.py
-
-<br />
 
 <tr>
 <td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Random_Rotation_Lantern_33.gif?raw=true"/><img width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Random_Rotation_Apple_33.gif?raw=true"/><img width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch1/Gifs/Random_Rotation_Astronaut_33.gif?raw=true"/>
