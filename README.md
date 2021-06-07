@@ -1,8 +1,8 @@
-# LabelMe - Image Data Augmentation
+# Image Data Augmentation
 
 ## Introduction
 
-This script is used to augment image data created using LabelMe-MIT. It copies the annotated part from the reference image (input annotated image) and paste it randomly to any possible area of the provided background images. 
+This script is used to augment image data created using **LabelMe-MIT**. It copies the annotated part from the reference image (input annotated image) and paste it randomly to any possible area of the provided background images. 
 
 ### Constraints 
 
@@ -14,15 +14,15 @@ This script is used to augment image data created using LabelMe-MIT. It copies t
 
 1. Random Shift - It copies the annotated part from the reference image (input annotated image) and paste it randomly to any possible area of the provided background images. 
 
-- iseg_aug.py - The new image formed is of same shape as of input annotated image. (Output 1)
+- **iseg_aug.py** - The new image formed is of same shape as of input annotated image. (**Output 1**)
 
-- iseg_aug_2.py - The new image formed is of same shape as of background image. (Output 2)
+- **iseg_aug_2.py** - The new image formed is of same shape as of background image. (**Output 2**)
   
 2. Rotation - It copies the annotated part from the reference image (input annotated image) and rotates it randomly.Then the copied part is pasted to any possible area of the provided background images.
 
-- iseg_aug_rotate.py - The rotation angle is fixed for a specific background but random shift happens in each image. (Output 3)
+- **iseg_aug_rotate.py** - The rotation angle is fixed for a specific background but random shift happens in each image. (**Output 3**)
  
-- iseg_aug_random_rotate.py - The random rotation and random shift happens simultaneously in each and every background image. (Output 4)
+- **iseg_aug_random_rotate.py** - The random rotation and random shift happens simultaneously in each and every background image. (**Output 4**)
 
 <table>
 
