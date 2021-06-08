@@ -2,9 +2,11 @@
 
 ## Introduction
 
-This script is used to augment image data created using **LabelMe-MIT**. It copies the annotated part from the reference image (input annotated image) and paste it randomly to any possible area of the provided background images. 
+This script is used to augment image data created using **LabelMe-MIT**. It copies the annotated part from the reference image (input annotated image) and paste it randomly to any possible area of the provided background images.
 
-### Constraints 
+ **It also creates new json files for the newly created images, i.e., it augments both the image as well as it's annotation**.
+
+### Constraints
 
 - LabelMe should be used to create the annotated json and thus images should be in .jpg format
 - Annotation should be a closed polygon/bounding box  
@@ -23,6 +25,8 @@ This script is used to augment image data created using **LabelMe-MIT**. It copi
 - **iseg_aug_rotate.py** - The rotation angle is fixed for a specific background but random shift happens in each image. (**Output 3**)
  
 - **iseg_aug_random_rotate.py** - The random rotation and random shift happens simultaneously in each and every background image. (**Output 4**)
+
+- **iseg_aug_5.py** - The random rotation and random shift happens simultaneously in each and every background image to a specific user class. *This script is applicable for images with multiple annotations, wherein the user can choose a particular class*.
 
 <table>
 
