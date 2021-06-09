@@ -77,8 +77,13 @@ def iseg_aug(aimg_folderpath, ajson_folderpath, bgimg_folderpath, output_folderp
             for j in range(0,ntimes_perbg):               
                 
                 # Random rotation of annotated area
-                rotated_coordinates, alpha = rotation(coordinates, rotlimitangle, height, width)
-                rotated_anno_img = ndimage.rotate(anno_img, alpha, reshape=True)
+                if rotlimitangle == 0:
+                    rotated_coordinates = coordinates
+                    rotated_anno_img = anno_img
+                else:
+                    rotated_coordinates, alpha = rotation(coordinates, rotlimitangle, height, width)
+                    rotated_anno_img = ndimage.rotate(anno_img, alpha, reshape=True)
+
                 rot_height = rotated_anno_img.shape[0]
                 rot_width = rotated_anno_img.shape[1]
 
@@ -115,7 +120,7 @@ def iseg_aug(aimg_folderpath, ajson_folderpath, bgimg_folderpath, output_folderp
                 if (len(random_moves)-1)== ((bg_img.shape[0] - x_max+1)*(bg_img.shape[1] - y_max+1)):
                     break
 
-                while 1==1:
+                while 1:
                     if [x_shift,y_shift] not in random_moves:
                         random_moves.append([x_shift,y_shift])
                         break

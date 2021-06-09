@@ -95,8 +95,13 @@ def iseg_aug_5(aimg_folderpath, ajson_folderpath, bgimg_folderpath, output_folde
                 
                 # Random rotation of annotated area
                 rchoice = random.randint(0,length-1)
-                rotated_coordinates, alpha = rotation(coordinates[rchoice], rotlimitangle, height, width)
-                rotated_anno_img = ndimage.rotate(anno_img, alpha, reshape=True)
+                if rotlimitangle == 0:
+                    rotated_coordinates = coordinates[rchoice]
+                    rotated_anno_img = anno_img
+                else:
+                    rotated_coordinates, alpha = rotation(coordinates[rchoice], rotlimitangle, height, width)
+                    rotated_anno_img = ndimage.rotate(anno_img, alpha, reshape=True)
+                
                 rot_height = rotated_anno_img.shape[0]
                 rot_width = rotated_anno_img.shape[1]
 

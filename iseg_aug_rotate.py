@@ -70,9 +70,14 @@ def iseg_aug(aimg_folderpath, ajson_folderpath, bgimg_folderpath, output_folderp
             bg_img = cv2.imread(bg) 
             
             # Random rotation of annotated area
-            coordinates = dummy_coordinates                        
-            rotated_coordinates, alpha = rotation(coordinates, rotlimitangle, height, width)
-            rotated_anno_img = ndimage.rotate(anno_img, alpha, reshape=True)
+            coordinates = dummy_coordinates 
+            if rotlimitangle == 0:
+                rotated_coordinates = coordinates
+                rotated_anno_img = anno_img
+            else:
+                rotated_coordinates, alpha = rotation(coordinates, rotlimitangle, height, width)
+                rotated_anno_img = ndimage.rotate(anno_img, alpha, reshape=True)
+            
             rot_height = rotated_anno_img.shape[0]
             rot_width = rotated_anno_img.shape[1]
             
