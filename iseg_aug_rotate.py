@@ -17,8 +17,8 @@ This function, iseg_aug, is used to augment image data.
             3. bgimg_folderpath - path of folder containing background images
             4. output_folderpath - path of folder where new augmented files are saved
             5. rotlimitangle - upper limit for random rotation
-            5. bg_count - no. of random background images to be used from background image folder
-            6. ntimes_perbg - no. of times you wish to augment using a single background image
+            6. bg_count - no. of random background images to be used from background image folder
+            7. ntimes_perbg - no. of times you wish to augment using a single background image
             
     Output: Newly augmented images and it's json (Output image size same as background image)
             
@@ -70,9 +70,14 @@ def iseg_aug(aimg_folderpath, ajson_folderpath, bgimg_folderpath, output_folderp
             bg_img = cv2.imread(bg) 
             
             # Random rotation of annotated area
-            coordinates = dummy_coordinates                        
-            rotated_coordinates, alpha = rotation(coordinates, rotlimitangle, height, width)
-            rotated_anno_img = ndimage.rotate(anno_img, alpha, reshape=True)
+            coordinates = dummy_coordinates 
+            if rotlimitangle == 0:
+                rotated_coordinates = coordinates
+                rotated_anno_img = anno_img
+            else:
+                rotated_coordinates, alpha = rotation(coordinates, rotlimitangle, height, width)
+                rotated_anno_img = ndimage.rotate(anno_img, alpha, reshape=True)
+            
             rot_height = rotated_anno_img.shape[0]
             rot_width = rotated_anno_img.shape[1]
             
@@ -143,7 +148,12 @@ def iseg_aug(aimg_folderpath, ajson_folderpath, bgimg_folderpath, output_folderp
                 
                 # Condition specific for bounding box
                 if data['shapes'][0]['shape_type']=="rectangle":   
-                    new_coordinates1 = [new_coordinates1[0],new_coordinates1[2]] 
+                    find = np.asarray(new_coordinates1)
+                    xmin = min(find[:,1:])[0]
+                    xmax = max(find[:,1:])[0]
+                    ymin = min(find[:,:1])[0]                    
+                    ymax = max(find[:,:1])[0]      
+                    new_coordinates1 = [[ymin, xmin], [ymax, xmax]] 
                     
                 data["shapes"][0]["points"] = new_coordinates1  
                 data["imagePath"] = ".." + os.path.basename(new_path)

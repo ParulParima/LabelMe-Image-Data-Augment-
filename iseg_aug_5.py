@@ -10,24 +10,24 @@ from scipy import ndimage
 import math
 
 """
-This function, iseg_aug, is used to augment image data.
+This function, iseg_aug_5, is used to augment image data.
 
     Inputs: 1. aimg_folderpath - path of annotated image folder
             2. ajson_folderpath - path of annotated image's json folder 
             3. bgimg_folderpath - path of folder containing background images
             4. output_folderpath - path of folder where new augmented files are saved
-            5. rotlimitangle - upper limit for random rotation
-            6. bg_count - no. of random background images to be used from background image folder
-            7. ntimes_perbg - no. of times you wish to augment using a single background image
+            5. user_class - name of the specfic class (annotation) which you wish to extract
+            6. rotlimitangle - upper limit for random rotation
+            7. bg_count - no. of random background images to be used from background image folder
+            8. ntimes_perbg - no. of times you wish to augment using a single background image
             
     Output: Newly augmented images and it's json (Output image size same as background image)
             
     Constraints: 1. Labelme should be used to create the annotated json
-                 2. Annotation should be a closed polygon/bounding box  
-                 3. One annotation per image                 
+                 2. Annotation should be a closed polygon/bounding box                   
 """
 
-def iseg_aug(aimg_folderpath, ajson_folderpath, bgimg_folderpath, output_folderpath, rotlimitangle, bg_count, ntimes_perbg):
+def iseg_aug_5(aimg_folderpath, ajson_folderpath, bgimg_folderpath, output_folderpath, user_class, rotlimitangle, bg_count, ntimes_perbg):
     
     # Extracting name of images
     inp_imgs =  os.listdir(aimg_folderpath)
@@ -46,16 +46,33 @@ def iseg_aug(aimg_folderpath, ajson_folderpath, bgimg_folderpath, output_folderp
         # Access original coordinates
         f = open(anno_img_json,)
         data = json.load(f)      
-        coordinates = data['shapes'][0]['points']
+        coordinates = []
+        shape_type = []
+        i = 0
+        j = 0
+        for k in data['shapes']:
+            if data['shapes'][i]['label'] == user_class:
+                coordinates.append( data['shapes'][i]['points'])
+                shape_type.append( data['shapes'][i]['shape_type'])
+                 # Condition specific for bounding box
+                if data['shapes'][i]['shape_type']=="rectangle":
+                    ymax = max(coordinates[j][0][0],coordinates[j][1][0])
+                    ymin = min(coordinates[j][0][0],coordinates[j][1][0])
+                    xmax = max(coordinates[j][0][1],coordinates[j][1][1])
+                    xmin = min(coordinates[j][0][1],coordinates[j][1][1])
+                    coordinates[j] = [[ymin,xmin],[ymax,xmin],[ymax,xmax],[ymin,xmax]] 
+                j = j + 1
+            i = i + 1
         f.close()
+        first_value=data["shapes"][0]
+        data["shapes"] = []
+        data["shapes"].append(first_value)
         
-        # Condition specific for bounding box
-        if data['shapes'][0]['shape_type']=="rectangle":
-            ymax = max(coordinates[0][0],coordinates[1][0])
-            ymin = min(coordinates[0][0],coordinates[1][0])
-            xmax = max(coordinates[0][1],coordinates[1][1])
-            xmin = min(coordinates[0][1],coordinates[1][1])
-            coordinates = [[ymin,xmin],[ymax,xmin],[ymax,xmax],[ymin,xmax]]
+        length = len(coordinates) 
+        
+        if length==0:
+            raise ValueError("%s: No such user class present" % (user_class))
+            break
             
         dummy_coordinates = coordinates.copy()
 
@@ -77,13 +94,14 @@ def iseg_aug(aimg_folderpath, ajson_folderpath, bgimg_folderpath, output_folderp
             for j in range(0,ntimes_perbg):               
                 
                 # Random rotation of annotated area
+                rchoice = random.randint(0,length-1)
                 if rotlimitangle == 0:
-                    rotated_coordinates = coordinates
+                    rotated_coordinates = coordinates[rchoice]
                     rotated_anno_img = anno_img
                 else:
-                    rotated_coordinates, alpha = rotation(coordinates, rotlimitangle, height, width)
+                    rotated_coordinates, alpha = rotation(coordinates[rchoice], rotlimitangle, height, width)
                     rotated_anno_img = ndimage.rotate(anno_img, alpha, reshape=True)
-
+                
                 rot_height = rotated_anno_img.shape[0]
                 rot_width = rotated_anno_img.shape[1]
 
@@ -120,7 +138,7 @@ def iseg_aug(aimg_folderpath, ajson_folderpath, bgimg_folderpath, output_folderp
                 if (len(random_moves)-1)== ((bg_img.shape[0] - x_max+1)*(bg_img.shape[1] - y_max+1)):
                     break
 
-                while 1:
+                while 1==1:
                     if [x_shift,y_shift] not in random_moves:
                         random_moves.append([x_shift,y_shift])
                         break
@@ -147,15 +165,17 @@ def iseg_aug(aimg_folderpath, ajson_folderpath, bgimg_folderpath, output_folderp
                 json_path = aug_path + str(counter) + ".json"
 
                 # Condition specific for bounding box
-                if data['shapes'][0]['shape_type']=="rectangle":   
+                if shape_type[rchoice]=="rectangle":   
                     find = np.asarray(new_coordinates1)
                     xmin = min(find[:,1:])[0]
                     xmax = max(find[:,1:])[0]
                     ymin = min(find[:,:1])[0]                    
                     ymax = max(find[:,:1])[0]      
-                    new_coordinates1 = [[ymin, xmin], [ymax, xmax]]  
-
-                data["shapes"][0]["points"] = new_coordinates1  
+                    new_coordinates1 = [[ymin, xmin], [ymax, xmax]] 
+                
+                data["shapes"][0]["label"] = user_class
+                data["shapes"][0]["shape_type"] = shape_type[rchoice]
+                data["shapes"][0]["points"] = new_coordinates1
                 data["imagePath"] = ".." + os.path.basename(new_path)
                 data["imageData"] = str(base64.b64encode(open(new_path,'rb').read()))[2:-1]
                 data["imageHeight"] = aug_img.shape[0]
@@ -165,7 +185,6 @@ def iseg_aug(aimg_folderpath, ajson_folderpath, bgimg_folderpath, output_folderp
                     json.dump(data, outfile, indent=2)
 
                 counter+=1
-
 
 # Adds padding or crops the background image accordingly to match dimensions of the annotated image                 
 def padding(res,bg_img):
@@ -253,8 +272,9 @@ if  __name__ == '__main__':
     parser.add_argument('--ajson_folderpath', type=str, default='input_JSONS/', help='Annotated images\' jsons folder path')
     parser.add_argument('--bgimg_folderpath', type=str, default='background_images/',help='Background images folder path')
     parser.add_argument('--output_folderpath', type=str, default='augmented_files/',help='Output folder path')
-    parser.add_argument('--rotlimitangle', type=int, default=360,help='Maximum allowable rotation angle')    
+    parser.add_argument('--user_class', type=str,help='Name of specific user class')
+    parser.add_argument('--rotlimitangle', type=int, default=45,help='Maximum allowable rotation angle')    
     parser.add_argument('--bg_count', type=int, default=10, help='No. of random background images to be used from background image folder')
     parser.add_argument('--ntimes_perbg', type=int, default=1, help='No. of times you wish to augment using a single background image')    
     opt = parser.parse_args()
-    iseg_aug(opt.aimg_folderpath, opt.ajson_folderpath, opt.bgimg_folderpath, opt.output_folderpath, opt.rotlimitangle, opt.bg_count, opt.ntimes_perbg)
+    iseg_aug_5(opt.aimg_folderpath, opt.ajson_folderpath, opt.bgimg_folderpath, opt.output_folderpath, opt.user_class, opt.rotlimitangle, opt.bg_count, opt.ntimes_perbg)
