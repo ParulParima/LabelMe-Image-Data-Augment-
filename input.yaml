@@ -24,7 +24,7 @@ transforms:
     vertical_flip_prob:  0.5
   randomshift:
     shift_state:  True
-    shift_prob:  0.9
+    shift_prob:  1        # Default
   blur:
     blur_state:  True
     blur_prob:  0.6
