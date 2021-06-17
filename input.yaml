@@ -6,7 +6,7 @@ inputs:
   output_folderpath:  C:\Users\91954\Desktop\seal\Freshoutput
   bg_count:  10 
   ntimes_perbg:  5
-  ratio_threshold : 0.1
+  ratio_threshold : 0.1     # Ratio of annotated area to background image area. Combinations below this ratio will be neglected.
 transforms:
   scaling:
     scaling_state:  True
