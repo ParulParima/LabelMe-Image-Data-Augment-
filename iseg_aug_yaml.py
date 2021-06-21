@@ -61,6 +61,7 @@ class transforms_p():
 
     # Rotates coordinates
     def rotation(self, input_img, coordinates, rotlimitangle):
+        
         temp_coordinates = np.asarray(coordinates)
         temp_coordinates = np.asarray([temp_coordinates[:,1],temp_coordinates[:,0]])
 
@@ -96,6 +97,7 @@ class transforms_p():
     
     # Flips the image about horizontal axis
     def fliphorizontal(self, input_img, coordinates):
+        
         aug_img = input_img[::-1,::] 
         aug_coordinates = [[i[0], input_img.shape[0] - i[1]] for i in coordinates]
 
@@ -103,6 +105,7 @@ class transforms_p():
     
     # Flips the image about vertical axis
     def flipvertical(self, input_img, coordinates):
+        
         aug_img = input_img[::,::-1]
         aug_coordinates = [[input_img.shape[1] - i[0], i[1]] for i in coordinates]
 
@@ -110,6 +113,7 @@ class transforms_p():
 
     # Blur
     def blur(self,input_img, blurchoice):
+        
         blurtype = ['Averaging', 'Gaussian Blurring', 'Median Blurring', 'Bilateral Filtering']
         if(blurchoice!=0 and blurchoice!=1 and blurchoice!=2 and blurchoice!=3):
             ch = np.random.randint(0,3)
@@ -127,6 +131,7 @@ class transforms_p():
     
     # Noise
     def noise(self, input_img, noise_choice, p_gauss =[0, 0.1], p_sp =[0.5, 0.004], p_speckle =[0.1]):       
+        
         noise_type = ["gauss", "salt&pepper", "poisson", "speckle"]        
         if(noise_choice!=0 and noise_choice!=1 and noise_choice!=2 and noise_choice!=3):
             ch = np.random.randint(0,3)
@@ -146,8 +151,7 @@ class transforms_p():
             coords = [np.random.randint(0, i - 1, int(num_salt))
                   for i in input_img.shape]
             input_img[tuple(coords)] = 255
-
-          # Pepper mode
+            # Pepper mode
             num_pepper = np.ceil(amount* input_img.size * (1. - s_vs_p))
             coords = [np.random.randint(0, i - 1, int(num_pepper))
                   for i in input_img.shape]
@@ -209,6 +213,7 @@ class ImageAugmentation(transforms_p):
         self.bg_count = self.yamldata['inputs']['bg_count']
         self.ntimes_perbg = self.yamldata['inputs']['ntimes_perbg']
         self.ratio_threshold = self.yamldata['inputs']['ratio_threshold']
+        self.user_class = self.yamldata['inputs']['user_class']
 
     def pipeline(self):
 
@@ -228,7 +233,13 @@ class ImageAugmentation(transforms_p):
         # Iterating on annotated images
         for img in inp_imgs:        
 
-            data, coordinates, aug_path, anno_img = dataread(img, self.aimg_folderpath, self.ajson_folderpath, self.output_folderpath)  
+            data, coordinates, shape_type, aug_path, anno_img = dataread(img, self.aimg_folderpath, self.ajson_folderpath, self.output_folderpath, self.user_class)  
+            
+            length = len(coordinates) 
+            
+            if length==0:
+                print("%s does not contain given class" % (Path(img).stem))
+                continue
 
             height, width = anno_img.shape[0], anno_img.shape[1]            
             counter = 1  # Counts the number of augmentation per annotated image
@@ -239,21 +250,28 @@ class ImageAugmentation(transforms_p):
                 bg = os.path.join(self.bgimg_folderpath, random.choice(bg_imgs)) # Selecting a random background image
                 bg_img = cv2.imread(bg)                 
                 dummy_bg = bg_img.copy()
+               
                 
-                # Checks whether annotated area when pasted in background image is above a threshold or not
-                if checkarea(self, bg_img, coordinates, self.ratio_threshold) == False:
+                # Checks whether annotated area when pasted in background image is above a threshold or not                 
+                list_choice = []
+                for i in range(0,len(coordinates)):
+                    if checkarea(self, bg_img, coordinates[i], self.ratio_threshold) == True:
+                        list_choice.append(i)
+                
+                if len(list_choice)==0:
                     continue
 
                 # Transforms 
                 for j in range(0, self.ntimes_perbg):               
                     
-                    aug_coordinates = coordinates
+                    rchoice = random.choice(list_choice)
+                    aug_coordinates = coordinates[rchoice]
                     aug_anno_img = anno_img
                     
                     # Downscale
                     if ts['scaling']['scaling_state'] == True:
                         downscaleprob = random.random()
-                        if downscaleprob <= ts['scaling']['downscale_prob'] and downscaleprob>0:
+                        if ts['scaling']['downscale_prob'] == 1.0 or (downscaleprob <= ts['scaling']['downscale_prob'] and downscaleprob>0):
                             new_coordinates = [[i[0]/ts['scaling']['downscale_factor'], i[1]/ts['scaling']['downscale_factor']] for i in aug_coordinates]
                             if checkarea(self, bg_img, new_coordinates, self.ratio_threshold) == True:
                                 aug_anno_img, aug_coordinates = obj.downscale(aug_anno_img, aug_coordinates, ts['scaling']['downscale_factor'])
@@ -261,14 +279,14 @@ class ImageAugmentation(transforms_p):
                     # Rotate
                     if ts['rotation']['rotation_state'] == True:
                         rotationprob = random.random()
-                        if rotationprob <= ts['rotation']['rotation_prob'] and rotationprob>0:
+                        if ts['rotation']['rotation_prob'] == 1.0 or (rotationprob <= ts['rotation']['rotation_prob'] and rotationprob>0):
                             if rotlimitangle != 0:
                                 aug_anno_img, aug_coordinates = obj.rotation(aug_anno_img, aug_coordinates, rotlimitangle)
                     
                     # Upscale
                     if ts['scaling']['scaling_state'] == True:      
                         upscaleprob = random.random()
-                        if upscaleprob <= ts['scaling']['upscale_prob'] and upscaleprob>0:
+                        if ts['scaling']['upscale_prob'] == 1.0 or (upscaleprob <= ts['scaling']['upscale_prob'] and upscaleprob>0):
                             new_coordinates = [[i[0]*ts['scaling']['upscale_factor'], i[1]*ts['scaling']['upscale_factor']] for i in aug_coordinates]
                             y_min, y_max, x_min, x_max = findminmax(new_coordinates)
                             if (y_max < bg_img.shape[1] and y_min > 0 and x_max < bg_img.shape[0] and x_min > 0):
@@ -278,28 +296,29 @@ class ImageAugmentation(transforms_p):
                     # Flip 
                     if ts['flipping']['flipping_state'] == True:        
                         verticalprob =  random.random()
-                        if verticalprob <= ts['flipping']['vertical_flip_prob'] and verticalprob>0:                 
+                        if ts['flipping']['vertical_flip_prob'] == 1.0 or (verticalprob <= ts['flipping']['vertical_flip_prob'] and verticalprob>0):                 
                              aug_anno_img, aug_coordinates = obj.flipvertical(aug_anno_img, aug_coordinates)  
+                                
                         horizontalprob = random.random()
-                        if horizontalprob <= ts['flipping']['horizontal_flip_prob'] and horizontalprob>0:
+                        if ts['flipping']['horizontal_flip_prob'] == 1.0 or (horizontalprob <= ts['flipping']['horizontal_flip_prob'] and horizontalprob>0):
                             aug_anno_img, aug_coordinates = obj.fliphorizontal(aug_anno_img, aug_coordinates) 
 
                     # BLur                   
                     if ts['blur']['blur_state'] == True: 
                         blurprob = random.random()
-                        if blurprob <= ts['blur']['blur_prob'] and blurprob>0:
+                        if ts['blur']['blur_prob'] == 1.0 or (blurprob <= ts['blur']['blur_prob'] and blurprob>0):
                             aug_anno_img = obj.blur(aug_anno_img, ts['blur']['blur_choice'])
                         
                     # Noise
                     if ts['noise']['noise_state'] == True:
                         noiseprob = random.random()
-                        if noiseprob <=ts['noise']['noise_prob'] and noiseprob>0:
+                        if ts['noise']['noise_prob'] == 1.0 or (noiseprob <=ts['noise']['noise_prob'] and noiseprob>0):
                             aug_anno_img = obj.noise(aug_anno_img, ts['noise']['noise_choice'], ts['noise']['gauss'], ts['noise']['salt&pepper'], ts['noise']['speckle'])
                     
                     # Shift
                     if ts['randomshift']['shift_state'] == True:  
                         shiftprob = 1
-                        if shiftprob <= ts['randomshift']['shift_prob'] and shiftprob>0:
+                        if ts['randomshift']['shift_prob'] == 1.0 or (shiftprob <= ts['randomshift']['shift_prob'] and shiftprob>0):
                             aug_anno_img, aug_coordinates = obj.shift(aug_coordinates, aug_anno_img, bg_img)
                     
                     aug_anno_img = shape_adjust(aug_anno_img, bg_img.shape[1], bg_img.shape[0])
@@ -317,14 +336,14 @@ class ImageAugmentation(transforms_p):
                     # Final image  
                     if checkarea(self, bg_img, aug_coordinates,self.ratio_threshold) == True:
                         aug_img = bg_img + res
-                        dataformation(aug_img, aug_path, data, aug_coordinates, counter)
+                        dataformation(aug_img, aug_path, data, shape_type, rchoice, aug_coordinates, counter, self.user_class)
                         counter+=1
                         flag +=1
                     bg_img = dummy_bg.copy()
                     
         print("%d files formed!" % (flag))
 
-def dataread(img, aimg_folderpath, ajson_folderpath, output_folderpath):
+def dataread(img, aimg_folderpath, ajson_folderpath, output_folderpath, user_class):
     image_name = Path(img).stem
     anno_img_path = os.path.join(aimg_folderpath, img)
     anno_img_json = os.path.join(ajson_folderpath, image_name + ".json")
@@ -332,21 +351,40 @@ def dataread(img, aimg_folderpath, ajson_folderpath, output_folderpath):
     # Access original coordinates
     f = open(anno_img_json,)
     data = json.load(f)      
-    coordinates = data['shapes'][0]['points']
     f.close()
+    
+    coordinates = [[]]
+    shape_type = [[]]
+    
+    if user_class == "default":
+        coordinates[0] = data['shapes'][0]['points']
+        shape_type[0] =  data['shapes'][0]['shape_type']
+        if data['shapes'][0]['shape_type']=="rectangle":
+            y_min, y_max, x_min, x_max = findminmax(coordinates[0])
+            coordinates[0] = [[y_min,x_min],[y_max,x_min],[y_max,x_max],[y_min,x_max]] 
+    else:
+        i = 0
+        j = 0
+        for k in data['shapes']:
+                if data['shapes'][i]['label'] == user_class:
+                    coordinates.append( data['shapes'][i]['points'])
+                    shape_type.append( data['shapes'][i]['shape_type'])
+                    
+                     # Condition specific for bounding box
+                    if data['shapes'][i]['shape_type']=="rectangle":
+                        y_min, y_max, x_min, x_max = findminmax(coordinates[j])
+                        coordinates[j] = [[y_min,x_min],[y_max,x_min],[y_max,x_max],[y_min,x_max]] 
+                    j = j + 1
+                i = i + 1
 
-    # Condition specific for bounding box
-    if data['shapes'][0]['shape_type']=="rectangle":
-        ymax = max(coordinates[0][0],coordinates[1][0])
-        ymin = min(coordinates[0][0],coordinates[1][0])
-        xmax = max(coordinates[0][1],coordinates[1][1])
-        xmin = min(coordinates[0][1],coordinates[1][1])
-        coordinates = [[ymin,xmin],[ymax,xmin],[ymax,xmax],[ymin,xmax]]
+    first_value=data["shapes"][0]
+    data["shapes"] = []
+    data["shapes"].append(first_value)
         
     aug_path = os.path.join(output_folderpath,image_name + "_aug_")          
     anno_img = cv2.imread(anno_img_path) 
 
-    return (data, coordinates, aug_path, anno_img)
+    return (data, coordinates, shape_type, aug_path, anno_img)
 
 def checkarea(self, bg_img, coordinates, ratio_threshold = 0.0):
     
@@ -414,7 +452,7 @@ def findminmax(coordinates):
     y_max = max(arr[::,0])
     x_min = min(arr[::,1])
     x_max = max(arr[::,1])
-#     print("findminmax")
+
     return y_min, y_max, x_min, x_max
 
 # Remove the coordinates values exceeding the image
@@ -434,7 +472,7 @@ def cropitup(coordinates, width, height):
     else:
         return dummy
     
-def dataformation(aug_img, aug_path, data, new_coordinates1, counter):
+def dataformation(aug_img, aug_path, data, shape_type, rchoice, new_coordinates1, counter, user_class):
     
     new_path = aug_path + str(counter) + ".jpg"
     cv2.imwrite(new_path, aug_img.astype(np.uint8))
@@ -442,11 +480,14 @@ def dataformation(aug_img, aug_path, data, new_coordinates1, counter):
     json_path = aug_path + str(counter) + ".json"
 
     # Condition specific for bounding box
-    if data['shapes'][0]['shape_type']=="rectangle": 
+    if shape_type[rchoice]=="rectangle":    
         ymin,ymax,xmin,xmax = findminmax(new_coordinates1)        
         new_coordinates1 = [[ymin, xmin], [ymax, xmax]] 
-        
-    data["shapes"][0]["points"] = new_coordinates1  
+     
+    if user_class!="default":
+        data["shapes"][0]["label"] = user_class
+    data["shapes"][0]["shape_type"] = shape_type[rchoice]
+    data["shapes"][0]["points"] = new_coordinates1
     data["imagePath"] = ".." + os.path.basename(new_path)
     data["imageData"] = str(base64.b64encode(open(new_path,'rb').read()))[2:-1]
     data["imageHeight"] = aug_img.shape[0]
@@ -457,11 +498,11 @@ def dataformation(aug_img, aug_path, data, new_coordinates1, counter):
         
 if __name__ == '__main__':
     
-    yaml_path = input("Please enter yaml file path:\n")
-    yaml_path = yaml_path.strip('"')
-    yaml_path = yaml_path.strip('\'')
-    if os.path.exists(yaml_path):
-        stream = open(yaml_path, 'r')
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--yaml_path", help="Path of YAML file", type=str)
+    args = parser.parse_args()
+    if os.path.exists(args.yaml_path):
+        stream = open(args.yaml_path, 'r')
         try:
             yamldata = yaml.safe_load(stream)
         except:

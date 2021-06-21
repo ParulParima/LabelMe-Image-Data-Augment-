@@ -6,7 +6,8 @@ inputs:
   output_folderpath:  C:\Users\91954\Desktop\seal\Freshoutput
   bg_count:  10 
   ntimes_perbg:  5
-  ratio_threshold : 0.1     # Ratio of annotated area to background image area. Combinations below this ratio will be neglected.
+  ratio_threshold :  0.1     # Ratio of annotated area to background image area. Combinations below this ratio will be neglected.
+  user_class:  default       # Specify a specific class or keep it default (takes the first annotated class) 
 transforms:
   scaling:
     scaling_state:  True
@@ -24,15 +25,15 @@ transforms:
     vertical_flip_prob:  0.5
   randomshift:
     shift_state:  True
-    shift_prob:  1        # Default
+    shift_prob:  0.9
   blur:
     blur_state:  True
     blur_prob:  0.6
     blur_choice:  random  #0 - 'Averaging', 1 - 'Gaussian Blurring', 2 - 'Median Blurring', 3 - 'Bilateral Filtering', random - for any random blur
   noise:
     noise_state:  True
-    noise_prob:  0.7
-    noise_choice:  random  #0 - 'gauss', 1 - 'salt&pepper', 2 - 'poisson', 3 - 'speckle', random - for any random noise
+    noise_prob:  1
+    noise_choice:  1  #0 - 'gauss', 1 - 'salt&pepper', 2 - 'poisson', 3 - 'speckle', random - for any random noise
     gauss:
       -  45          # Enter the sigma value if you have chosen gauss
       -  50       # Enter the variance value if you have chosen gauss
