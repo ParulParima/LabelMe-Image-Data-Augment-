@@ -188,7 +188,7 @@ class transforms_p():
 
         # Shift the annotated object to origin in original image
         aug_img = np.roll(input_img, -x_min, axis = 0)
-        aug_img = np.roll(input_img, -y_min, axis = 1)
+        aug_img = np.roll(aug_img, -y_min, axis = 1)
         
         # Random Shift
         x_shift = np.random.randint(0,  bg_img.shape[0] - x_max)
