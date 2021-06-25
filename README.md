@@ -105,9 +105,9 @@ This script is used to augment image data created using **LabelMe-MIT**. It copi
 <!-- Line 1: Output -->
 <tr>
 <td><em>Output</em></td>
-<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch2/Gifs/YLantern_33.gif?raw=true"/></td>
-<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch2/Gifs/YApple_33.gif?raw=true"/></td>
-<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/Branch2/Gifs/YAstronaut_33.gif?raw=true"/></td>
+<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Gifs/YLantern_33.gif?raw=true"/></td>
+<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Gifs/YApple_33.gif?raw=true"/></td>
+<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Gifs/YAstronaut_33.gif?raw=true"/></td>
 </tr>
 
 </table>
