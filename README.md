@@ -87,6 +87,7 @@ This script is used to augment image data created using **LabelMe-MIT**. It copi
 
 </table>
 
+<p>&nbsp;</p>
 
 3. It copies the annotated part from the reference image(input annotated image) and do different tranforms on it like random rotation, flip, upscale, downscale, random blur, random noise and random shift. All these tranformations will happen as per the user requirement which can be specified on the YAML file. Then the transformed annotation is pasted to any provided random background images.
 *This script is applicable for images with multiple annotations, wherein the user can choose a particular class. If not choosen, it will consider the first annotation in the annotated image*.  
@@ -109,5 +110,4 @@ This script is used to augment image data created using **LabelMe-MIT**. It copi
 <td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Gifs/YApple_33.gif?raw=true"/></td>
 <td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Gifs/YAstronaut_33.gif?raw=true"/></td>
 </tr>
-
 </table>
