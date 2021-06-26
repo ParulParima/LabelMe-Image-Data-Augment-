@@ -14,13 +14,38 @@ This script is used to augment image data created using **LabelMe-MIT**. It copi
 
 ## Description
 
-1. Random Shift - It copies the annotated part from the reference image (input annotated image) and paste it randomly to any possible area of the provided background images. 
+1. It copies the annotated part from the reference image(input annotated image) and do different transforms on it like random rotation, flip, upscale, downscale, random blur, random noise and random shift. All these transformations will happen as per the user requirement which can be specified on the YAML file. Then the transformed annotation is pasted to any provided random background images.
+*This script is applicable for images with multiple annotations, wherein the user can choose a particular class. If not choosen, it will consider the first annotation in the annotated image*.  
+- **iseg_aug_yaml.py** 
+- **input.yaml** 
+   
+
+<table>
+
+<tr>
+<th>&nbsp;</th>
+<th>Lantern</th>
+<th>Apple</th>
+<th>Astronaut</th>
+</tr>
+<!-- Line 1: Output -->
+<tr>
+<td><em>Output</em></td>
+<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Gifs/YLantern_33.gif?raw=true"/></td>
+<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Gifs/YApple_33.gif?raw=true"/></td>
+<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Gifs/YAstronaut_33.gif?raw=true"/></td>
+</tr>
+</table>
+
+<p>&nbsp;</p>
+
+2. Random Shift - It copies the annotated part from the reference image (input annotated image) and paste it randomly to any possible area of the provided background images. 
 
 - **iseg_aug.py** - The new image formed is of same shape as of input annotated image. (**Output 1**)
 
 - **iseg_aug_2.py** - The new image formed is of same shape as of background image. (**Output 2**)
   
-2. Rotation - It copies the annotated part from the reference image (input annotated image) and rotates it randomly.Then the copied part is pasted to any possible area of the provided background images.
+3. Rotation - It copies the annotated part from the reference image (input annotated image) and rotates it randomly.Then the copied part is pasted to any possible area of the provided background images.
 
 - **iseg_aug_rotate.py** - The rotation angle is fixed for a specific background but random shift happens in each image. (**Output 3**)
  
@@ -87,27 +112,5 @@ This script is used to augment image data created using **LabelMe-MIT**. It copi
 
 </table>
 
-<p>&nbsp;</p>
 
-3. It copies the annotated part from the reference image(input annotated image) and do different transforms on it like random rotation, flip, upscale, downscale, random blur, random noise and random shift. All these transformations will happen as per the user requirement which can be specified on the YAML file. Then the transformed annotation is pasted to any provided random background images.
-*This script is applicable for images with multiple annotations, wherein the user can choose a particular class. If not choosen, it will consider the first annotation in the annotated image*.  
-- **iseg_aug_yaml.py** 
-- **input.yaml** 
-   
 
-<table>
-
-<tr>
-<th>&nbsp;</th>
-<th>Lantern</th>
-<th>Apple</th>
-<th>Astronaut</th>
-</tr>
-<!-- Line 1: Output -->
-<tr>
-<td><em>Output</em></td>
-<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Gifs/YLantern_33.gif?raw=true"/></td>
-<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Gifs/YApple_33.gif?raw=true"/></td>
-<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Gifs/YAstronaut_33.gif?raw=true"/></td>
-</tr>
-</table>
