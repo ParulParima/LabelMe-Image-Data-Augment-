@@ -1,8 +1,8 @@
 ---
 inputs:
-  aimg_folderpath:  C:\Users\91954\Desktop\seal\Input_Img
-  ajson_folderpath:  C:\Users\91954\Desktop\seal\Input_JSON
-  bgimg_folderpath:  C:\Users\91954\Desktop\seal\bg
+  aimg_folderpath:  C:\Users\91954\Documents\GitHub\LabelMe-Image-Data-Augment-\Input_Images
+  ajson_folderpath:  C:\Users\91954\Documents\GitHub\LabelMe-Image-Data-Augment-\Input_JSONS
+  bgimg_folderpath:  C:\Users\91954\Documents\GitHub\LabelMe-Image-Data-Augment-\background_images
   output_folderpath:  C:\Users\91954\Desktop\seal\Freshoutput
   bg_count:  10 
   ntimes_perbg:  5
@@ -11,29 +11,29 @@ inputs:
 transforms:
   scaling:
     scaling_state:  True
-    downscale_prob:  0.7
+    downscale_prob:  0.5
     downscale_factor:  2
-    upscale_prob:  0.8
+    upscale_prob:  0.5
     upscale_factor:  2
   rotation:
     rotation_state:  True
-    rotation_prob:  0.7
+    rotation_prob:  0.5
     rotlimitangle:  78
   flipping:
     flipping_state:  True
-    horizontal_flip_prob:  0.9
+    horizontal_flip_prob:  0.5
     vertical_flip_prob:  0.5
   randomshift:
     shift_state:  True
-    shift_prob:  0.9
+    shift_prob:  1
   blur:
     blur_state:  True
-    blur_prob:  0.6
+    blur_prob:  0.5
     blur_choice:  random  #0 - 'Averaging', 1 - 'Gaussian Blurring', 2 - 'Median Blurring', 3 - 'Bilateral Filtering', random - for any random blur
   noise:
     noise_state:  True
-    noise_prob:  1
-    noise_choice:  1  #0 - 'gauss', 1 - 'salt&pepper', 2 - 'poisson', 3 - 'speckle', random - for any random noise
+    noise_prob:  0.5
+    noise_choice:  random  #0 - 'gauss', 1 - 'salt&pepper', 2 - 'poisson', 3 - 'speckle', random - for any random noise
     gauss:
       -  45          # Enter the sigma value if you have chosen gauss
       -  50       # Enter the variance value if you have chosen gauss
@@ -42,4 +42,7 @@ transforms:
       - 0.1       # Enter the amount value if you have chosen salt&pepper
     speckle:
       - 0.1         # Enter the amount value if you have chosen speckle
-    
+  grayscale:
+    grayscale_state:  True
+    grayscale_prob:  0.2
+    grayscale_choice:  random   # 0 - grayscale the whole output image, 1 - grayscale only the annotated part in the output image, 2 - grayscale the output image except the annotated area     

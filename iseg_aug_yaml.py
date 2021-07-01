@@ -65,7 +65,7 @@ class transforms_p():
         temp_coordinates = np.asarray(coordinates)
         temp_coordinates = np.asarray([temp_coordinates[:,1],temp_coordinates[:,0]])
 
-        alpha = np.random.randint(0,rotlimitangle)
+        alpha = np.random.randint(0,rotlimitangle+1)
         theta = alpha % 90
 
         cos_alpha = math.cos(math.radians(alpha))
@@ -116,7 +116,7 @@ class transforms_p():
         
         blurtype = ['Averaging', 'Gaussian Blurring', 'Median Blurring', 'Bilateral Filtering']
         if(blurchoice!=0 and blurchoice!=1 and blurchoice!=2 and blurchoice!=3):
-            ch = np.random.randint(0,3)
+            ch = np.random.randint(0,4)
             blurchoice = ch
         if  blurchoice == 0:
             aug_img = cv2.blur(input_img, (2,2)) 
@@ -134,7 +134,7 @@ class transforms_p():
         
         noise_type = ["gauss", "salt&pepper", "poisson", "speckle"]        
         if(noise_choice!=0 and noise_choice!=1 and noise_choice!=2 and noise_choice!=3):
-            ch = np.random.randint(0,3)
+            ch = np.random.randint(0,4)
             noise_choice = ch
             
         if noise_choice == 0:
@@ -200,6 +200,26 @@ class transforms_p():
         aug_img = np.roll(aug_img, y_shift, axis=1)
                  
         return (aug_img, aug_coordinates)
+    
+    # Grayscale
+    def grayscale(self, bg_img, res, gray_choice):
+        if(gray_choice!=0 and gray_choice!=1 and gray_choice!=2):
+            ch = np.random.randint(0,3)
+            gray_choice = ch                                
+        if gray_choice == 0:
+            bg_img = bg_img[:, :, 0]
+            res = res[:, :, 0]
+        elif gray_choice == 1:
+            rb = res[:, :, 0]
+            gb = res[:, :, 0]
+            bb = res[:, :, 0]
+            res = np.dstack(tup=(rb, gb, bb))
+        elif gray_choice == 2:
+            rb = bg_img[:, :, 0]
+            gb = bg_img[:, :, 0]
+            bb = bg_img[:, :, 0]
+            bg_img = np.dstack(tup=(rb, gb, bb)) 
+        return (bg_img, res)
 
 class ImageAugmentation(transforms_p):
     
@@ -317,7 +337,7 @@ class ImageAugmentation(transforms_p):
                     
                     # Shift
                     if ts['randomshift']['shift_state'] == True:  
-                        shiftprob = 1
+                        shiftprob = random.random()
                         if ts['randomshift']['shift_prob'] == 1.0 or (shiftprob <= ts['randomshift']['shift_prob'] and shiftprob>0):
                             aug_anno_img, aug_coordinates = obj.shift(aug_coordinates, aug_anno_img, bg_img)
                     
@@ -335,6 +355,13 @@ class ImageAugmentation(transforms_p):
                     
                     # Final image  
                     if checkarea(self, bg_img, aug_coordinates,self.ratio_threshold) == True:
+                        
+                        # Grayscale
+                        if ts['grayscale']['grayscale_state'] == True:  
+                            grayscaleprob = random.random()
+                            if ts['grayscale']['grayscale_prob'] == 1.0 or (grayscaleprob <= ts['grayscale']['grayscale_prob'] and grayscaleprob>0):
+                                bg_img, res = obj.grayscale(bg_img, res, ts['grayscale']['grayscale_choice'])
+                                
                         aug_img = bg_img + res
                         dataformation(aug_img, aug_path, data, shape_type, rchoice, aug_coordinates, counter, self.user_class)
                         counter+=1
