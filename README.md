@@ -15,7 +15,6 @@ This script is used to augment image data created using **LabelMe-MIT**. It copi
 ## Description
 
 1. It copies the annotated part from the reference image(input annotated image) and do different transforms on it like random rotation, flip, upscale, downscale, brightness and contrast, random blur, random noise, grayscale and random shift. All these transformations will happen as per the user requirement which can be specified on the YAML file. Then the transformed annotation is pasted to any provided random background images.
->>>>>>> 0d29d0236f63b91cb7454487de17944c824cafd5
 *This script is applicable for images with multiple annotations, wherein the user can choose a particular class. If not chosen, it will consider the first annotation in the annotated image*.  
 - **iseg_aug_yaml.py** 
 - **input.yaml** 
