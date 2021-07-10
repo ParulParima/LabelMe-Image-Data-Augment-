@@ -322,7 +322,13 @@ class ImageAugmentation(transforms_p):
                         horizontalprob = random.random()
                         if ts['flipping']['horizontal_flip_prob'] == 1.0 or (horizontalprob <= ts['flipping']['horizontal_flip_prob'] and horizontalprob>0):
                             aug_anno_img, aug_coordinates = obj.fliphorizontal(aug_anno_img, aug_coordinates) 
-
+                    
+                    # Brightness and Contrast                   
+                    if ts['brightness-contrast']['brightness-contrast_state'] == True: 
+                        bcprob = random.random()
+                        if ts['brightness-contrast']['brightness-contrast_prob'] == 1.0 or (bcprob <= ts['brightness-contrast']['brightness-contrast_prob'] and bcprob>0):
+                            aug_anno_img = cv2.convertScaleAbs(aug_anno_img, alpha=ts['brightness-contrast']['alpha'], beta=ts['brightness-contrast']['beta'])
+                            
                     # BLur                   
                     if ts['blur']['blur_state'] == True: 
                         blurprob = random.random()

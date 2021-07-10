@@ -45,4 +45,9 @@ transforms:
   grayscale:
     grayscale_state:  True
     grayscale_prob:  0.2
-    grayscale_choice:  random   # 0 - grayscale the whole output image, 1 - grayscale only the annotated part in the output image, 2 - grayscale the output image except the annotated area     
+    grayscale_choice:  random   # 0 - grayscale the whole output image, 1 - grayscale only the annotated part in the output image, 2 - grayscale the output image except the annotated area, random - any of the three 
+  brightness-contrast:
+    brightness-contrast_state:  True
+    brightness-contrast_prob:  0.5
+    alpha:  1    # Contrast control (1.0-3.0)
+    beta:  0       # Brightness control (0-100)
