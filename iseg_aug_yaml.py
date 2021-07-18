@@ -220,6 +220,35 @@ class transforms_p():
             bb = bg_img[:, :, 0]
             bg_img = np.dstack(tup=(rb, gb, bb)) 
         return (bg_img, res)
+    
+    # Edge Detection
+    def edgedetection(self, bg_img, res,edge_choice):
+        if(edge_choice!=0 and edge_choice!=1):
+            ch = np.random.randint(0,2)
+            edge_choice = ch 
+ 
+        if len(res.shape)==2:
+            if edge_choice == 0:
+                bg_img = np.uint8(bg_img)
+                bg_img = cv2.GaussianBlur(bg_img, (3,3), 0)
+                bg_img = cv2.Canny(image= bg_img, threshold1=100, threshold2=200)
+            res = np.uint8(res)
+            res = cv2.GaussianBlur(res, (3,3), 0)
+            res = cv2.Canny(image=res, threshold1=100, threshold2=200)
+            
+        elif len(res.shape)==3:
+            if edge_choice == 0:
+                bg_img = bg_img[:, :, 0]
+                bg_img = np.uint8(bg_img)
+                bg_img = cv2.GaussianBlur(bg_img, (3,3), 0)
+                bg_img = cv2.Canny(image=bg_img, threshold1=100, threshold2=200)
+                bg_img = np.dstack(tup=(bg_img, bg_img, bg_img))
+            res = res[:, :, 0]
+            res = np.uint8(res)
+            res = cv2.GaussianBlur(res, (3,3), 0)
+            res = cv2.Canny(image=res, threshold1=100, threshold2=200)
+            res = np.dstack(tup=(res, res, res))
+        return (bg_img, res)
 
 class ImageAugmentation(transforms_p):
     
@@ -234,6 +263,7 @@ class ImageAugmentation(transforms_p):
         self.ntimes_perbg = self.yamldata['inputs']['ntimes_perbg']
         self.ratio_threshold = self.yamldata['inputs']['ratio_threshold']
         self.user_class = self.yamldata['inputs']['user_class']
+        self.pad_annotation = self.yamldata['inputs']['pad_annotation']
 
     def pipeline(self):
 
@@ -253,7 +283,7 @@ class ImageAugmentation(transforms_p):
         # Iterating on annotated images
         for img in inp_imgs:        
 
-            data, coordinates, shape_type, aug_path, anno_img = dataread(img, self.aimg_folderpath, self.ajson_folderpath, self.output_folderpath, self.user_class)  
+            data, coordinates, shape_type, aug_path, anno_img = dataread(img, self.aimg_folderpath, self.ajson_folderpath, self.output_folderpath, self.user_class, self.pad_annotation)  
             
             length = len(coordinates) 
             
@@ -368,6 +398,12 @@ class ImageAugmentation(transforms_p):
                             if ts['grayscale']['grayscale_prob'] == 1.0 or (grayscaleprob <= ts['grayscale']['grayscale_prob'] and grayscaleprob>0):
                                 bg_img, res = obj.grayscale(bg_img, res, ts['grayscale']['grayscale_choice'])
                                 
+                        # Edge Detection    
+                        if ts['edgedetection']['edgedetection_state'] == True:  
+                            edgedetectionprob = random.random()
+                            if ts['edgedetection']['edgedetection_prob'] == 1.0 or (edgedetectionprob <= ts['edgedetection']['edgedetection_prob'] and edgedetectionprob>0):
+                                bg_img, res = obj.edgedetection(bg_img, res, ts['edgedetection']['edgedetection_choice'])
+                                
                         aug_img = bg_img + res
                         dataformation(aug_img, aug_path, data, shape_type, rchoice, aug_coordinates, counter, self.user_class)
                         counter+=1
@@ -376,11 +412,14 @@ class ImageAugmentation(transforms_p):
                     
         print("%d files formed!" % (flag))
 
-def dataread(img, aimg_folderpath, ajson_folderpath, output_folderpath, user_class):
+def dataread(img, aimg_folderpath, ajson_folderpath, output_folderpath, user_class, pad):
     image_name = Path(img).stem
     anno_img_path = os.path.join(aimg_folderpath, img)
     anno_img_json = os.path.join(ajson_folderpath, image_name + ".json")
-
+    aug_path = os.path.join(output_folderpath,image_name + "_aug_")          
+    anno_img = cv2.imread(anno_img_path)
+    height, width = anno_img.shape[0], anno_img.shape[1]
+    
     # Access original coordinates
     f = open(anno_img_json,)
     data = json.load(f)      
@@ -394,6 +433,10 @@ def dataread(img, aimg_folderpath, ajson_folderpath, output_folderpath, user_cla
         shape_type[0] =  data['shapes'][0]['shape_type']
         if data['shapes'][0]['shape_type']=="rectangle":
             y_min, y_max, x_min, x_max = findminmax(coordinates[0])
+            x_min = x_min - pad if x_min - pad>=0 else 0
+            y_min = y_min - pad if y_min - pad>=0 else 0
+            x_max = x_max + pad if x_max + pad<=height else height
+            y_max = y_max + pad if y_max + pad<=width else width
             coordinates[0] = [[y_min,x_min],[y_max,x_min],[y_max,x_max],[y_min,x_max]] 
     else:
         i = 0
@@ -406,16 +449,17 @@ def dataread(img, aimg_folderpath, ajson_folderpath, output_folderpath, user_cla
                      # Condition specific for bounding box
                     if data['shapes'][i]['shape_type']=="rectangle":
                         y_min, y_max, x_min, x_max = findminmax(coordinates[j])
+                        x_min = x_min - pad if x_min - pad>=0 else 0
+                        y_min = y_min - pad if y_min - pad>=0 else 0
+                        x_max = x_max + pad if x_max + pad<=height else height
+                        y_max = y_max + pad if y_max + pad<=width else width
                         coordinates[j] = [[y_min,x_min],[y_max,x_min],[y_max,x_max],[y_min,x_max]] 
                     j = j + 1
                 i = i + 1
 
     first_value=data["shapes"][0]
     data["shapes"] = []
-    data["shapes"].append(first_value)
-        
-    aug_path = os.path.join(output_folderpath,image_name + "_aug_")          
-    anno_img = cv2.imread(anno_img_path) 
+    data["shapes"].append(first_value)    
 
     return (data, coordinates, shape_type, aug_path, anno_img)
 
