@@ -21,8 +21,6 @@ It copies the annotated portion from the reference image(input annotated image),
 - **iseg_aug_yaml.py**
 - **input.yaml**
 
-</br>
-
 ### Transforms
 
 1. Downscale
@@ -46,7 +44,6 @@ It copies the annotated portion from the reference image(input annotated image),
 10. Brightness and Contrast
 
 11. Canny Edge Detection
-</br>
 
 ### Options other than transforms
 
