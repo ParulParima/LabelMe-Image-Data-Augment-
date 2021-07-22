@@ -2,57 +2,61 @@
 
 ## Introduction
 
-This script is used to augment image data created using **LabelMe-MIT**. It copies the annotated part from the reference image (input annotated image) and paste it randomly to any possible area of the provided background images.
+This script is used to augment image data created using **LabelMe-MIT**.
 
- **It also creates new json files for the newly created images, i.e., it augments both the image as well as it's annotation**.
+ **It also creates new json files for the newly generated images, i.e., it augments both the image as well as it's annotation**.
 
 ### Constraints
 
-- LabelMe should be used to create the annotated json and thus images should be in .jpg format
+- LabelMe should be used for annotating images
 - Annotation should be a closed polygon/bounding box  
 - There should be one annotation in an image
 
+*This script can work for images with multiple annotation as well, but it will only take into account the first annotation or the first user-specified class annotation*.
+
 ## Description
 
-1. It copies the annotated part from the reference image(input annotated image) and do different transforms on it like random rotation, flip, upscale, downscale, brightness and contrast, random blur, random noise, grayscale and random shift. All these transformations will happen as per the user requirement which can be specified on the YAML file. Then the transformed annotation is pasted to any provided random background images.
-*This script is applicable for images with multiple annotations, wherein the user can choose a particular class. If not chosen, it will consider the first annotation in the annotated image*.  
-- **iseg_aug_yaml.py** 
-- **input.yaml** 
-   
+It copies the annotated portion from the reference image(input annotated image), processes it according to the user's instructions, which can be provided in the YAML file. And then paste it on one of the given random background images.
 
-<table>
+- **iseg_aug_yaml.py**
+- **input.yaml**
 
-<tr>
-<th>&nbsp;</th>
-<th>Lantern</th>
-<th>Apple</th>
-<th>Astronaut</th>
-</tr>
-<!-- Line 1: Output -->
-<tr>
-<td><em>Output</em></td>
-<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Gifs/YLantern_33.gif?raw=true"/></td>
-<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Gifs/YApple_33.gif?raw=true"/></td>
-<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Gifs/YAstronaut_33.gif?raw=true"/></td>
-</tr>
-</table>
+</br>
 
-<p>&nbsp;</p>
+### Transforms
 
-2. Random Shift - It copies the annotated part from the reference image (input annotated image) and paste it randomly to any possible area of the provided background images. 
+1. Downscale
 
-- **iseg_aug.py** - The new image formed is of same shape as of input annotated image. (**Output 1**)
+2. Upscale
 
-- **iseg_aug_2.py** - The new image formed is of same shape as of background image. (**Output 2**)
-  
-3. Rotation - It copies the annotated part from the reference image (input annotated image) and rotates it randomly.Then the copied part is pasted to any possible area of the provided background images.
+3. Rotation
 
-- **iseg_aug_rotate.py** - The rotation angle is fixed for a specific background but random shift happens in each image. (**Output 3**)
- 
-- **iseg_aug_random_rotate.py** - The random rotation and random shift happens simultaneously in each and every background image. (**Output 4**)
+4. Horizontal Flip
 
-- **iseg_aug_5.py** - The random rotation and random shift happens simultaneously in each and every background image to a specific user class. *This script is applicable for images with multiple annotations, wherein the user can choose a particular class*.
+5. Vertical Flip
 
+6. Random Shift
+
+7. Blur - Averaging, Gaussian Blurring, Median Blurring, Bilateral Filtering
+
+8. Noise - Guass, Salt and Pepper, Poisson, Speckle
+
+9. Grayscale
+
+10. Brightness and Contrast
+
+11. Canny Edge Detection
+</br>
+
+### Options other than transforms
+
+1. Threshold Ratio - Ratio of annotated area to background image area. Combinations below this ratio will be neglected.
+
+2. User Class - Choose a specific class on which to do transformations
+
+3. Pad Annotation - Amount of padding you want to add to the annotation
+
+</br>
 <table>
 
 <tr>
@@ -80,37 +84,9 @@ This script is used to augment image data created using **LabelMe-MIT**. It copi
 
 <!-- Line 3: Output 1 -->
 <tr>
-<td><em>Output 1</em></td>
-<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/master/Gifs/Bg_Img_Lantern_33.gif?raw=true"/></td>
-<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/master/Gifs/Bg_Img_Apple_33.gif?raw=true"/></td>
-<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/master/Gifs/Bg_Img_Astronaut_33.gif?raw=true"/></td>
+<td><em>Output</em></td>
+<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Gifs/YN_Lantern_33.gif?raw=true"/></td>
+<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Gifs/YN_Apple_33.gif?raw=true"/></td>
+<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/main/Gifs/YN_Astronaut_33.gif?raw=true"/></td>
 </tr>
-
-<!-- Line 4: Output 2 -->
-<tr>
-<td><em>Output 2</em></td>
-<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/master/Gifs/Anno_Img_Lantern_33.gif?raw=true"/></td>
-<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/master/Gifs/Anno_Img_Apple_33.gif?raw=true"/></td>
-<td><img align="centre" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/master/Gifs/Anno_Img_Astronaut_33.gif?raw=true"/></td>
-</tr>
-
-<!-- Line 5: Output 3 -->
-<tr>
-<td><em>Output 3</em></td>
-<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/master/Gifs/Rotation_Lantern_33.gif?raw=true"/></td>
-<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/master/Gifs/Rotation_Apple_33.gif?raw=true"/></td>
-<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/master/Gifs/Rotation_Astronaut_33.gif?raw=true"/></td>
-</tr>
-
-<!-- Line 6: Output 4 -->
-<tr>
-<td><em>Output 4</em></td>
-<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/master/Gifs/Random_Rotation_Lantern_33.gif?raw=true"/></td>
-<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/master/Gifs/Random_Rotation_Apple_33.gif?raw=true"/></td>
-<td><img align="left" width="250px" height="141px" src="https://github.com/ParulParima/LabelMe-Image-Data-Augment-/blob/master/Gifs/Random_Rotation_Astronaut_33.gif?raw=true"/></td>
-</tr>
-
 </table>
-
-
-
