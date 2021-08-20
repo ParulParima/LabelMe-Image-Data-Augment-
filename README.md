@@ -37,7 +37,7 @@ It copies the annotated portion from the reference image(input annotated image),
 
 7. Blur - Averaging, Gaussian Blurring, Median Blurring, Bilateral Filtering
 
-8. Noise - Guass, Salt and Pepper, Poisson, Speckle
+8. Noise - Gauss, Salt and Pepper, Poisson, Speckle
 
 9. Grayscale
 
